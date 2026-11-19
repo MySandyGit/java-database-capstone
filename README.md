@@ -113,7 +113,7 @@ java-database-capstone/
 - Used clean coding and MVC principles for scalability.
 
 ## About Me
-I’m Rashid Amanzholov, a software developer with over 10 years of experience in mobile (Flutter, Kotlin) and backend development. This project is part of my IBM Java Developer certification, showcasing my skills in building enterprise backend solutions. Visit my [LinkedIn](www.linkedin.com/in/santhoshkumar-p-551796396) and [GitHub](https://github.com/MySandyGit) for more projects.
+I’m Santhoshkumar Palanisamy, a software developer with over 2 years of experience java development and  backend development. This project is part of my IBM Java Developer certification, showcasing my skills in building enterprise backend solutions. Visit my [LinkedIn](www.linkedin.com/in/santhoshkumar-p-551796396) and [GitHub](https://github.com/MySandyGit) for more projects.
 
 ## License
 This project is licensed under the Apache License. See the `LICENSE` file for details.
