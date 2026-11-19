@@ -1,6 +1,132 @@
 package com.project.back_end.models;
 
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Future;
+
+@Entity
 public class Appointment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @NotNull
+    private Doctor doctor;
+
+    @ManyToOne
+    @NotNull
+    private Patient patient;
+
+    @Future(message = "Appointment time must be in the future")
+    private LocalDateTime appointmentTime;
+
+    private int status; // 0 = Scheduled, 1 = Completed, 2 = Cancelled
+
+    // Constructors
+    public Appointment() {
+    }
+
+    public Appointment(Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status) {
+        this.doctor = doctor;
+        this.patient = patient;
+        this.appointmentTime = appointmentTime;
+        this.status = status;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public LocalDateTime getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(LocalDateTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    // Utility Methods
+    @Transient
+    public LocalDateTime getEndTime() {
+        return appointmentTime.plusHours(1);
+    }
+
+    @Transient
+    public LocalDate getAppointmentDate() {
+        return appointmentTime.toLocalDate();
+    }
+
+    @Transient
+    public LocalTime getAppointmentTimeOnly() {
+        return appointmentTime.toLocalTime();
+    }
+
+    // Status Constants
+    public static final int STATUS_SCHEDULED = 0;
+    public static final int STATUS_COMPLETED = 1;
+    public static final int STATUS_CANCELLED = 2;
+
+    // Business Logic Methods
+    public boolean isCompleted() {
+        return this.status == STATUS_COMPLETED;
+    }
+
+    public boolean isCancelled() {
+        return this.status == STATUS_CANCELLED;
+    }
+
+    public boolean isUpcoming() {
+        return this.status == STATUS_SCHEDULED &&
+                this.appointmentTime.isAfter(LocalDateTime.now());
+    }
+
+    // toString() for logging/debugging
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", doctorId=" + (doctor != null ? doctor.getId() : "null") +
+                ", patientId=" + (patient != null ? patient.getId() : "null") +
+                ", appointmentTime=" + appointmentTime +
+                ", status=" + status +
+                '}';
+    }
+}
+
 
   // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
@@ -68,5 +194,4 @@ public class Appointment {
 // 10. Getters and Setters:
 //    - Standard getter and setter methods are provided for accessing and modifying the fields: id, doctor, patient, appointmentTime, status, etc.
 
-}
 
